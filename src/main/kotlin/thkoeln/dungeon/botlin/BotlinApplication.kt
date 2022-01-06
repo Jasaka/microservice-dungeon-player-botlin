@@ -1,4 +1,4 @@
-package thkoeln.dungeon.kotlinplayer
+package thkoeln.dungeon.botlin
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
