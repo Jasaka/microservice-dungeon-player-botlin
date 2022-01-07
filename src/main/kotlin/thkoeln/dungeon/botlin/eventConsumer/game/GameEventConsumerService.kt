@@ -19,7 +19,7 @@ class GameEventConsumerService {
         this.gameStatusEventRepository = gameStatusEventRepository
     }
 
-     @KafkaListener(topics = "status")
+     @KafkaListener(topics = ["status"])
      fun consumeGameStatusEvent(
              @Payload gameStatusEventPayload: GameStatusEventPayload,
              headers : MessageHeaders
