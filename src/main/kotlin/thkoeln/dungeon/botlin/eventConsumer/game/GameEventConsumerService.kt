@@ -12,12 +12,10 @@ class GameEventConsumerService {
     private var gameStatusEventRepository: GameStatusEventRepository? = null
 
     @Autowired
-    fun GameEventConsumerService(
-            gameStatusEventRepository: GameStatusEventRepository
-    )
-    {
+    constructor(gameStatusEventRepository: GameStatusEventRepository?) {
         this.gameStatusEventRepository = gameStatusEventRepository
     }
+
 
      @KafkaListener(topics = ["status"])
      fun consumeGameStatusEvent(
@@ -28,4 +26,7 @@ class GameEventConsumerService {
          val gameStatusEvent = GameStatusEvent(headers,gameStatusEventPayload);
          gameStatusEventRepository?.save(gameStatusEvent);
      }
+    
+    fun getGameStatusEventRepoSize() : Long? = gameStatusEventRepository?.count() ?: -1;
+
 }
