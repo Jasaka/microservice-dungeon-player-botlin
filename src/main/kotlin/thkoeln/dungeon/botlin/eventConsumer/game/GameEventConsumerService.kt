@@ -27,6 +27,6 @@ class GameEventConsumerService {
          gameStatusEventRepository?.save(gameStatusEvent);
      }
     
-    fun getGameStatusEventRepoSize() : Long? = gameStatusEventRepository?.count() ?: -1;
+    fun getGameStatusEventRepoSize() : Long? = gameStatusEventRepository?.count();
 
 }
