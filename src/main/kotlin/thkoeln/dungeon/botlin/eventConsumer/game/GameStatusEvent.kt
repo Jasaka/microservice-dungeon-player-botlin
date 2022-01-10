@@ -7,18 +7,27 @@ import java.util.*
 import javax.persistence.Entity
 
 @Entity
-class GameStatusEvent(messageHeaders: MessageHeaders, gameStatusEventPayload: GameStatusEventPayload) : AbstractEvent() {
-    private val gameStatus: GameStatus? = null
-    private var gameID : UUID? = null;
+class GameStatusEvent : AbstractEvent {
+    private lateinit var gameStatus: GameStatus
+    private lateinit var gameID: UUID
+
+    constructor() {
+
+    }
+
+    constructor(messageHeaders: MessageHeaders, gameStatusEventPayload: GameStatusEventPayload) : super(messageHeaders){
+
+        gameStatus = gameStatusEventPayload.gameStatus
+        gameID = gameStatusEventPayload.gameId
+    }
+
 
     private companion object {
         val TYPE_KEY = "type";
         val GAME_ID_KEY = "gameId";
     }
 
-
-    init {
-        AbstractEvent(messageHeaders)
-    }
+    fun getGameId(): UUID? = gameID;
+    fun getGameStatus(): GameStatus? = gameStatus;
 
 }

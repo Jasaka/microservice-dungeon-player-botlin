@@ -18,11 +18,12 @@ abstract class AbstractEvent() {
     {
         val TRANSACTION_ID_KEY: String = "transactionId";
     }
-
-
-    fun AbstractEvent(messageHeaders: MessageHeaders) {
+    constructor(messageHeaders: MessageHeaders) : this() {
         eventId = messageHeaders.id;
         timestamp = messageHeaders.timestamp;
         transactionId = UUID.fromString(messageHeaders[TRANSACTION_ID_KEY].toString())
+
     }
+
+
 }
