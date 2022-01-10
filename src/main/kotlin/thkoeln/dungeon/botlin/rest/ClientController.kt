@@ -16,7 +16,7 @@ class ClientController {
     @GetMapping("/games")
     fun getGames(): String = "All Games"
 
-    @GetMapping("/games/{game-id}/robots")
+    @GetMapping("/games/{game-id}")
     fun getGame(@PathVariable("game-id") gameId: UUID): String = "Game $gameId"
 
     @GetMapping("/games/{game-id}/robots")
