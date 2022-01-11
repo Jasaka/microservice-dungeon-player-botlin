@@ -12,21 +12,22 @@ import java.util.*
 
 @Service
 class GameApplicationService {
-    private lateinit var gameRepository: GameRepository
+    private var gameRepository: GameRepository?
     //TODO: GameServiceRESTAdapter
 
     private var logger: Logger = LoggerFactory.getLogger(GameApplicationService::class.java)
     var modelMapper: ModelMapper = ModelMapper();
 
     @Autowired
-    constructor(gameRepository: GameRepository
+    constructor(gameRepository: GameRepository?
     ) {
         this.gameRepository = gameRepository
     }
 
     fun retrieveActiveGames(): List<Game> {
-        return gameRepository.findAllByGameStatusEquals(GameStatus.GAME_RUNNING)
+        return gameRepository!!.findAllByGameStatusEquals(GameStatus.RUNNING)
     }
+
 
     fun gameStatusExternallyChanged(gameId: UUID, gameStatus: GameStatus) {
         when (gameStatus) {
@@ -34,31 +35,61 @@ class GameApplicationService {
         }
     }
 
-    fun gameExternallyCreated(gameId: UUID) {
+    fun gameExternallyCreated(gameId: UUID) : Game{
         logger.info("Processing external event that the game has been created")
-        var fittingGames = gameRepository.findByGameId(gameId)
+        var game = findAndIfNeededCreateGame(gameId)
+        game.resetToNewlyCreated()
+        gameRepository?.save(game)
+        return game;
+    }
+    fun findAndIfNeededCreateGame(gameId: UUID) : Game
+    {
+        var fittingGames = gameRepository!!.findByGameId(gameId)
         var game: Game? = null
         if (fittingGames.isEmpty()) {
             game = Game.newlyCreatedGame(gameId)
-            gameRepository.save(game)
+            gameRepository!!.save(game)
         } else {
             if (fittingGames.size > 1)
-                game = mergeGamesIntoOne(fittingGames)
+            {
+            game = fittingGames[0]
+            }
             game!!.resetToNewlyCreated();
-            gameRepository.save(game)
         }
-
+        gameRepository!!.save(game)
+return game
     }
 
-    fun mergeGamesIntoOne(fittingGames: List<Game>): Game {
-        //Implement
-        return fittingGames[0];
+    fun gameExternallyStarted(gameId: UUID) : Game {
+        logger.info("Processing external event that the game with id $gameId has started")
+        var allGames : List<Game>? = gameRepository?.findAll()
+        if (allGames != null) {
+            for (game in allGames) {
+                game.gameStatus = GameStatus.FINISHED
+                gameRepository?.save(game)
+            }
+        }
+        var game = findAndIfNeededCreateGame(gameId)
+        game.gameStatus = GameStatus.RUNNING
+        gameRepository?.save(game)
+        return game
     }
 
-    fun gameExternallyStarted(eventId: UUID) {
-        logger.info("Processing external event that the game with id $eventId has started")
-        val foundGames = gameRepository.findAllByGameStatusEquals(GameStatus.GAME_RUNNING)
+    fun gameExternallyFinished(gameId: UUID) : Game{
+        logger.info("Processing external event that the game with gameId $gameId has ended")
+        var game = findAndIfNeededCreateGame(gameId)
+        game.gameStatus = GameStatus.FINISHED
+        gameRepository?.save(game)
+        return game
     }
+    fun newRound(gameId: UUID,roundNumber: Int)
+    {
+        logger.info("Processing 'new round' event for round no. $roundNumber")
+        //todo
+    }
+
+    //todo synchronize game state ?
+
 
 
 }

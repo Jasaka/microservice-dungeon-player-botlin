@@ -26,8 +26,11 @@ class GameEventConsumerService {
         if (gameStatusEvent.isValid()) {
             when (gameStatusEvent.getGameStatus()) {
                 //GameStatus.CREATED ->
-                GameStatus.GAME_RUNNING -> gameApplicationService?.gameExternallyStarted(gameStatusEvent.getGameId()!!)
-                //GameStatus.GAME_FINISHED -> gameApplicationService.gameExternallyFinished(gameStatusEvent.getGameId())
+                GameStatus.RUNNING -> gameApplicationService?.gameExternallyStarted(gameStatusEvent.getGameId()!!)
+                GameStatus.FINISHED -> gameApplicationService?.gameExternallyFinished(gameStatusEvent.getGameId()!!)
+                GameStatus.CREATED -> TODO()
+                GameStatus.ORPHANED -> TODO()
+                null -> TODO()
             }
         }
     }
