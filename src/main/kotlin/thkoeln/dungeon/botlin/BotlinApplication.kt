@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.kafka.annotation.EnableKafka
 
 @EntityScan("thkoeln.dungeon.botlin.*")
-@EnableJpaRepositories("thkoeln.dungeon.botlin.eventConsumer.game")
 @SpringBootApplication(exclude=[DataSourceAutoConfiguration::class])
 open class BotlinApplication
 
