@@ -5,12 +5,18 @@ import org.springframework.messaging.MessageHeaders
 import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Service
+import thkoeln.dungeon.botlin.eventConsumer.player.PlayerStatus
+import thkoeln.dungeon.botlin.eventConsumer.player.PlayerStatusEvent
 import thkoeln.dungeon.botlin.game.application.GameApplicationService
 import thkoeln.dungeon.botlin.game.domain.GameStatus
 
 @Service
 class GameEventConsumerService {
     var gameApplicationService: GameApplicationService?
+
+    companion object {
+        val gameEventList: MutableList<GameStatusEvent> = mutableListOf();
+    }
 
     //Todo var playerApplicationService : PlayerApplicationService
     constructor(gameApplicationService: GameApplicationService?) {
@@ -35,13 +41,25 @@ class GameEventConsumerService {
         }
     }
 
-    companion object {
-        val gameEventList: MutableList<GameStatusEvent> = mutableListOf();
+
+    @KafkaListener(topics = ["playerStatus"])
+    fun consumePlayerStatusEvent(@Header eventId: String, @Header timestamp: String, @Header transactionId: String,
+                                    @Payload payload: String) {
+        val playerStatusEvent = PlayerStatusEvent(eventId, timestamp, transactionId, payload)
+        if (playerStatusEvent.isValid()) {
+            when (playerStatusEvent.getPlayerStatus()) {
+                PlayerStatus.JOINED -> TODO()
+            }
+        }
     }
 
-    @KafkaListener(topics = ["roundStarted"])
-    fun consumeNewRoundStartedEvent() {
-//todo
+    @KafkaListener(topics = ["playerStatus"])
+    fun consumeRoundStatusEvent(@Header eventId: String, @Header timestamp: String, @Header transactionId: String,
+                                @Payload payload: String)
+    {
+
     }
+
+
 
 }
