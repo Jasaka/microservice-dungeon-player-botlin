@@ -1,5 +1,6 @@
 package thkoeln.dungeon.botlin.eventConsumer.game
 
+import com.fasterxml.jackson.core.JsonProcessingException
 import org.springframework.messaging.MessageHeaders
 import thkoeln.dungeon.botlin.eventConsumer.core.AbstractEvent
 import thkoeln.dungeon.botlin.game.domain.GameStatus
@@ -11,14 +12,22 @@ class GameStatusEvent : AbstractEvent {
     private lateinit var gameStatus: GameStatus
     private lateinit var gameID: UUID
 
-    constructor() {
+    constructor() : super() {
 
     }
 
-    constructor(messageHeaders: MessageHeaders, gameStatusEventPayload: GameStatusEventPayload) : super(messageHeaders){
+    constructor(eventIdString: String, timestampString: String, transactionIdString: String, payloadString: String)
+            : super(eventIdString,timestampString,transactionIdString) {
+        try {
+            var payload = GameStatusEventPayloadDto.fromJsonString(payloadString)
+            gameStatus = payload.getGameStatus()!!
+            gameID = payload.getGameId()!!
 
-        gameStatus = gameStatusEventPayload.gameStatus
-        gameID = gameStatusEventPayload.gameId
+        }
+        catch (conversionFailed : JsonProcessingException)
+        {
+
+        }
     }
 
 
@@ -29,5 +38,6 @@ class GameStatusEvent : AbstractEvent {
 
     fun getGameId(): UUID? = gameID;
     fun getGameStatus(): GameStatus? = gameStatus;
+    fun isValid() : Boolean = gameID != null && gameStatus != null
 
 }
