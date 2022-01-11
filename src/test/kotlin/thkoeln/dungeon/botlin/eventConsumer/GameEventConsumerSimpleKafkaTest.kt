@@ -1,6 +1,12 @@
 package thkoeln.dungeon.botlin.eventConsumer;
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import kafka.utils.Json
+import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.header.internals.RecordHeader
 import org.assertj.core.api.Assertions.assertThat
+import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,9 +23,13 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker
 import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.kafka.test.utils.ContainerTestUtils
 import org.springframework.kafka.test.utils.KafkaTestUtils
+import org.springframework.messaging.Message
+import org.springframework.messaging.support.MessageBuilder
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.junit4.SpringRunner
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.JsonSerializer
 import thkoeln.dungeon.botlin.eventConsumer.game.GameEventConsumerService
+import thkoeln.dungeon.botlin.eventConsumer.game.GameStatusEvent
 
 
 @RunWith(SpringRunner::class)
@@ -41,10 +51,10 @@ class GameEventConsumerSimpleKafkaTest {
 
     private lateinit var producer: KafkaTemplate<String, String>
 
-    @Before
     fun buildProducer() {
         this.producer = buildKafkaTemplate()
     }
+
 
     private fun buildKafkaTemplate(): KafkaTemplate<String, String> {
         var senderProps = KafkaTestUtils.producerProps(kafkaEmbedded)
@@ -55,18 +65,33 @@ class GameEventConsumerSimpleKafkaTest {
 
     @Before
     fun setUp() {
+        buildProducer()
         for (messageListenerContainer in kafkaListenerEndpointRegistry.listenerContainers) {
             ContainerTestUtils.waitForAssignment(messageListenerContainer, kafkaEmbedded.partitionsPerTopic)
         }
     }
 
+    fun buildRecordHeader(): ProducerRecord<String, String> {
+        var headerString = "{\"eventId\":\"5bc9f935-32f1-4d7b-a90c-ff0e6e34125a\"," +
+                "\"transactionId\":\"0cfc04f1-6df5-42c6-a19a-146128b8a3b4\"," +
+                "\"version\":42," +
+                "\"timestamp\":{}," +
+                "\"type\":\"event-example-uploaded\"}"
+
+        var payloadString =  "{\"gameId\":\"5bc9f935-32f1-4d7b-a90c-ff0e6e34125a\",\"status\":\"created\"}"
+        var mapper: ObjectMapper = ObjectMapper()
+        var producerRecord: ProducerRecord<String, String> = ProducerRecord<String, String>("status", payloadString)
+        var jsontree: JsonNode = mapper.readTree(headerString)
+        for (header in jsontree.fields()) {
+            producerRecord.headers().add(RecordHeader(header.key.toString(), header.value.toString().toByteArray()))
+        }
+        return producerRecord
+    }
+
     @Test
     fun testConsume_receiveMessage() {
-        //var kafkaTemplate = TestConfig().kafkaTemplate()
-        producer.send("status", "{\n" +
-                "  \"gameId\": \"5bc9f935-32f1-4d7b-a90c-ff0e6e34125a\",\n" +
-                "  \"status\": \"created\"\n" +
-                "}")
+        var message = buildRecordHeader();
+        producer.send(message)
         println("Game Event List ${GameEventConsumerService.gameEventList}")
         assertThat(GameEventConsumerService.gameEventList.size != 0).isTrue
     }
