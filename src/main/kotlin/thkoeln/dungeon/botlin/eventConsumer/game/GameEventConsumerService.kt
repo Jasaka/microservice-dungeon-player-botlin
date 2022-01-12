@@ -9,6 +9,7 @@ import thkoeln.dungeon.botlin.eventConsumer.player.PlayerStatus
 import thkoeln.dungeon.botlin.eventConsumer.player.PlayerStatusEvent
 import thkoeln.dungeon.botlin.game.application.GameApplicationService
 import thkoeln.dungeon.botlin.game.domain.GameStatus
+import thkoeln.dungeon.botlin.game.domain.RoundStatus
 
 @Service
 class GameEventConsumerService {
@@ -27,6 +28,12 @@ class GameEventConsumerService {
     fun consumeGameStatusEvent(@Header eventId: String, @Header timestamp: String, @Header transactionId: String,
                                @Payload payload: String
     ) {
+        println("Game Status Header: ")
+        println(eventId)
+        println(timestamp)
+        println(transactionId)
+        println("Game Status payload: $payload")
+
         val gameStatusEvent = GameStatusEvent(eventId, timestamp, transactionId, payload);
         gameEventList.add(gameStatusEvent)
         if (gameStatusEvent.isValid()) {
@@ -53,10 +60,20 @@ class GameEventConsumerService {
         }
     }
 
-    @KafkaListener(topics = ["playerStatus"])
+    @KafkaListener(topics = ["roundStatus"])
     fun consumeRoundStatusEvent(@Header eventId: String, @Header timestamp: String, @Header transactionId: String,
                                 @Payload payload: String)
     {
+        val roundStatusEvent = RoundStatusEvent(eventId,timestamp,transactionId,payload)
+        if(roundStatusEvent.isValid())
+        {
+            when(roundStatusEvent.getRoundStatus())
+            {
+                RoundStatus.STARTED -> gameApplicationService?.newRound(roundStatusEvent.getRoundNumber())
+                RoundStatus.COMMAND_END -> TODO() //Rest send command for every robots
+                RoundStatus.ROUND_END -> TODO()
+            }
+        }
 
     }
 

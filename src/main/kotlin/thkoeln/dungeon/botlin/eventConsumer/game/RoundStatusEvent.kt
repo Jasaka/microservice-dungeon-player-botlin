@@ -2,7 +2,7 @@ package thkoeln.dungeon.botlin.eventConsumer.game
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import thkoeln.dungeon.botlin.eventConsumer.core.AbstractEvent
-import thkoeln.dungeon.botlin.eventConsumer.player.PlayerStatusEventPayloadDto
+import thkoeln.dungeon.botlin.game.domain.RoundStatus
 import java.util.*
 
 class RoundStatusEvent : AbstractEvent {
@@ -26,4 +26,9 @@ class RoundStatusEvent : AbstractEvent {
 
         }
     }
+    fun getRoundId(): UUID = roundId
+    fun getRoundNumber(): Int = roundNumber
+    fun getRoundStatus(): RoundStatus = roundStatus
+
+    fun isValid() : Boolean = roundId != null && roundNumber != -1 && roundStatus != null
 }

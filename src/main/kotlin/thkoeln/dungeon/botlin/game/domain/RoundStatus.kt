@@ -1,4 +1,4 @@
-package thkoeln.dungeon.botlin.eventConsumer.game
+package thkoeln.dungeon.botlin.game.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

@@ -2,6 +2,7 @@ package thkoeln.dungeon.botlin.eventConsumer.game
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
+import thkoeln.dungeon.botlin.game.domain.RoundStatus
 import java.util.*
 
 class RoundStatusEventPayloadDto {
