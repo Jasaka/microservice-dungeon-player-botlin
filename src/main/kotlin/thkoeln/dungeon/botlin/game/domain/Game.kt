@@ -1,5 +1,6 @@
 package thkoeln.dungeon.botlin.game.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -7,12 +8,15 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Game {
+
     @Id
     private var id = UUID.randomUUID();
 
     lateinit var gameID: UUID
     lateinit var gameStatus: GameStatus
+    //TODO lateinit var player : Player
     var currentRoundCount = -1
 
     @Transient

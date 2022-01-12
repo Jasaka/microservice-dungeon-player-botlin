@@ -9,8 +9,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.kafka.annotation.EnableKafka
 
-@EntityScan("thkoeln.dungeon.botlin.*")
-@SpringBootApplication(exclude=[DataSourceAutoConfiguration::class])
+@SpringBootApplication()
 open class BotlinApplication
 
 fun main(args: Array<String>) {

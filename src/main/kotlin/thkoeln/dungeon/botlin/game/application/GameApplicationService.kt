@@ -28,41 +28,37 @@ class GameApplicationService {
         return gameRepository!!.findAllByGameStatusEquals(GameStatus.RUNNING)
     }
 
-
     fun gameStatusExternallyChanged(gameId: UUID, gameStatus: GameStatus) {
         when (gameStatus) {
             GameStatus.CREATED -> gameExternallyCreated(gameId)
         }
     }
 
-    fun gameExternallyCreated(gameId: UUID) : Game{
+    fun gameExternallyCreated(gameId: UUID): Game {
         logger.info("Processing external event that the game has been created")
         var game = findAndIfNeededCreateGame(gameId)
         game.resetToNewlyCreated()
         gameRepository?.save(game)
         return game;
     }
-    fun findAndIfNeededCreateGame(gameId: UUID) : Game
-    {
-        var fittingGames = gameRepository!!.findByGameId(gameId)
+
+    fun findAndIfNeededCreateGame(gameId: UUID): Game {
+        var fittingGames = gameRepository!!.findByGameID(gameId)
         var game: Game? = null
         if (fittingGames.isEmpty()) {
             game = Game.newlyCreatedGame(gameId)
-            gameRepository!!.save(game)
         } else {
-            if (fittingGames.size > 1)
-            {
-            game = fittingGames[0]
+            if (fittingGames.size > 1) {
+                game = fittingGames[0]
             }
-            game!!.resetToNewlyCreated();
         }
-        gameRepository!!.save(game)
-return game
+        gameRepository!!.save(game!!)
+        return game
     }
 
-    fun gameExternallyStarted(gameId: UUID) : Game {
+    fun gameExternallyStarted(gameId: UUID): Game {
         logger.info("Processing external event that the game with id $gameId has started")
-        var allGames : List<Game>? = gameRepository?.findAll()
+        var allGames: List<Game>? = gameRepository?.findAll()
         if (allGames != null) {
             for (game in allGames) {
                 game.gameStatus = GameStatus.FINISHED
@@ -75,21 +71,20 @@ return game
         return game
     }
 
-    fun gameExternallyFinished(gameId: UUID) : Game{
+    fun gameExternallyFinished(gameId: UUID): Game {
         logger.info("Processing external event that the game with gameId $gameId has ended")
         var game = findAndIfNeededCreateGame(gameId)
         game.gameStatus = GameStatus.FINISHED
         gameRepository?.save(game)
         return game
     }
-    fun newRound(gameId: UUID,roundNumber: Int)
-    {
+
+    fun newRound(roundNumber: Int) {
         logger.info("Processing 'new round' event for round no. $roundNumber")
+        var game = findAndIfNeededCreateGame(gameRepository?.findFirstByGameStatusEquals(GameStatus.RUNNING)!!.gameID)
+        game.currentRoundCount = roundNumber
+        gameRepository?.save(game)
         //todo
     }
-
     //todo synchronize game state ?
-
-
-
 }
