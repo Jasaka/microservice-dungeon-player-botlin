@@ -9,10 +9,8 @@ import javax.persistence.Transient
 
 
 @MappedSuperclass
-abstract class AbstractEvent() {
+abstract class AbstractEvent(){
 
-    @Transient
-    //protected var logger: Logger = LoggerFactory.getLogger(PlayerApplicationService::class.java)
 
     @Id
     protected var id = UUID.randomUUID();
