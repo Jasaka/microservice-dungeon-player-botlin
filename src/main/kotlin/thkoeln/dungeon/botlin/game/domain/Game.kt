@@ -3,9 +3,10 @@ package thkoeln.dungeon.botlin.game.domain
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import thkoeln.dungeon.botlin.player.Player
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Id
+import javax.persistence.*
+import kotlin.jvm.Transient
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,7 +17,8 @@ class Game {
 
     lateinit var gameID: UUID
     lateinit var gameStatus: GameStatus
-    //TODO lateinit var player : Player
+    @OneToMany()
+    var players : MutableList<Player> = mutableListOf()
     var currentRoundCount = -1
 
     @Transient
@@ -32,6 +34,8 @@ class Game {
         gameStatus = GameStatus.ORPHANED
         logger.warn("Marked Game $this as ORPHANED!")
     }
+    fun getParticipants() : List<Player> = players
+
 
     companion object {
         fun newlyCreatedGame(gameId: UUID): Game {
@@ -54,6 +58,7 @@ class Game {
         }
 
     }
+
 
     @Override
     override fun hashCode(): Int = Objects.hash(id);

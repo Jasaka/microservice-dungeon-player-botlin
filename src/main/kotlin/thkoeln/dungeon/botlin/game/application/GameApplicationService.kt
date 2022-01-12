@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 import thkoeln.dungeon.botlin.game.domain.Game
 import thkoeln.dungeon.botlin.game.domain.GameRepository
 import thkoeln.dungeon.botlin.game.domain.GameStatus
+import thkoeln.dungeon.botlin.player.Player
 import java.util.*
 
 @Service
@@ -85,6 +86,11 @@ class GameApplicationService {
         game.currentRoundCount = roundNumber
         gameRepository?.save(game)
         //todo
+    }
+
+    fun newPlayerJoinedGame(player: Player, game: Game) {
+        game.players.add(player)
+        gameRepository?.save(game)
     }
     //todo synchronize game state ?
 }

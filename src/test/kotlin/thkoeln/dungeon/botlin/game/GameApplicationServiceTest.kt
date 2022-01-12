@@ -22,8 +22,7 @@ import kotlin.jvm.Throws
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-@EntityScan("thkoeln.dungeon.botlin.game.*")
-@EnableJpaRepositories(basePackages = ["thkoeln.dungeon.botlin.game.*"])
+@EnableAutoConfiguration
 class GameApplicationServiceTest {
     //Only ID because we will only have one game!
     private var GAME_ID = UUID.randomUUID()
