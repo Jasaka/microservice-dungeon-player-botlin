@@ -1,11 +1,14 @@
-package thkoeln.dungeon.botlin.rest
+package thkoeln.dungeon.botlin.api
+import khttp.responses.Response
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-class ClientController {
+abstract class ClientController {
+
+    val adapter: GameAdapter = GameAdapter();
 
     @DeleteMapping
     fun forbidDelete(): ResponseEntity<*> = ResponseEntity<Any>(HttpStatus.FORBIDDEN)
@@ -17,7 +20,10 @@ class ClientController {
     fun getGames(): String = "All Games"
 
     @GetMapping("/games/{game-id}")
-    fun getGame(@PathVariable("game-id") gameId: UUID): String = "Game $gameId"
+    fun getGame(@PathVariable("game-id") gameId: UUID): Response {
+        println(gameId)
+        return adapter.getGame(gameId)
+    }
 
     @GetMapping("/games/{game-id}/robots")
     fun getRobots(@PathVariable("game-id") gameId: UUID): String = "All Robots in Game $gameId"
