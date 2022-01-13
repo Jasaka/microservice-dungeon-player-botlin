@@ -3,18 +3,24 @@ import khttp.responses.Response
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.ModelAndView
 import java.util.*
 
-@RestController
-abstract class ClientController {
 
-    val adapter: GameAdapter = GameAdapter();
+@RestController
+class ClientController {
+
+    val adapter: GameAdapter = GameAdapter()
 
     @DeleteMapping
     fun forbidDelete(): ResponseEntity<*> = ResponseEntity<Any>(HttpStatus.FORBIDDEN)
 
-    @GetMapping("/")
-    fun getSome(): String = "API Information"
+    @RequestMapping("/")
+    fun frontend(): ModelAndView {
+        val modelAndView = ModelAndView()
+        modelAndView.viewName = "index"
+        return modelAndView
+    }
 
     @GetMapping("/games")
     fun getGames(): String = "All Games"
