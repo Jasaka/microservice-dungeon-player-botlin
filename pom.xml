@@ -10,7 +10,7 @@
     </parent>
     <groupId>th-koeln.dungeon</groupId>
     <artifactId>player-botlin</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>player-botlin</name>
     <description>PlayerService for the th-koeln dungeon informatikproject, implemented in kotlin</description>
     <properties>
@@ -21,7 +21,8 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository></repositories>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -107,9 +108,7 @@
                         <arg>-Xjsr305=strict</arg>
                     </args>
                     <compilerPlugins>
-                        <plugin>all-open</plugin>
                         <plugin>spring</plugin>
-                        <option>all-open:annotation=javax.persistence.Id</option>
                     </compilerPlugins>
 
 
