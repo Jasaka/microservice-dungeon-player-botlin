@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner
 import thkoeln.dungeon.botlin.game.application.GameApplicationService
 import thkoeln.dungeon.botlin.game.domain.Game
 import thkoeln.dungeon.botlin.game.domain.GameRepository
+import thkoeln.dungeon.botlin.user.User
+import thkoeln.dungeon.botlin.user.UserRepository
 import java.util.*
 import kotlin.jvm.Throws
 
@@ -24,7 +26,7 @@ class PlayerApplicationServiceTest {
     //Only ID because we will only have one game!
     private var GAME_ID = UUID.randomUUID()
     private lateinit var game0: Game
-    private lateinit var player: Player
+    private lateinit var user:User
 
     @Autowired
     private lateinit var gameRepository: GameRepository
@@ -33,7 +35,9 @@ class PlayerApplicationServiceTest {
     private lateinit var gameApplicationService: GameApplicationService
 
     @Autowired
-    private lateinit var playerRepository: PlayerRepository
+    private lateinit var userRepository: UserRepository
+    @Autowired
+    private lateinit var playerRepository:PlayerRepository
 
     @Autowired
     private lateinit var playerApplicationService: PlayerApplicationService
@@ -42,18 +46,19 @@ class PlayerApplicationServiceTest {
     @Throws(Exception::class)
     fun setUp() {
         gameRepository.deleteAll()
+        userRepository.deleteAll()
         playerRepository.deleteAll()
         game0 = Game.newlyCreatedGame(GAME_ID)
-        player = Player()
-        playerRepository.save(player)
+        user= User()
+        user.bearerToken = UUID.randomUUID()
+        userRepository.save(user)
     }
 
     @Test
-    fun testRegisterPlayerInOneGame() {
-        playerApplicationService.registerOnePlayerForGame(player,game0)
-        assertEquals(1,playerRepository.findAll().size)
+    fun testRegisterUserInGame() {
+        playerApplicationService.registerOneUserForGame(user,game0)
+        assertEquals(1,userRepository.findAll().size)
         assertEquals(1,game0.players.size)
-        assertEquals(player,game0.players[0])
     }
 
 }

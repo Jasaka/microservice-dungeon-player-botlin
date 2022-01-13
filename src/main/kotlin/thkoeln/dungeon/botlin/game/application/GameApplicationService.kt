@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import thkoeln.dungeon.botlin.game.domain.Game
 import thkoeln.dungeon.botlin.game.domain.GameRepository
 import thkoeln.dungeon.botlin.game.domain.GameStatus
-import thkoeln.dungeon.botlin.player.Player
+import thkoeln.dungeon.botlin.user.User
 import java.util.*
 
 @Service
@@ -89,7 +89,8 @@ class GameApplicationService {
         //todo
     }
 
-    fun newPlayerJoinedGame(player: Player, game: Game) {
+    fun newUserJoinedGame(user: User, game: Game) {
+        var player = user.participate()
         game.players.add(player)
         gameRepository?.save(game)
     }

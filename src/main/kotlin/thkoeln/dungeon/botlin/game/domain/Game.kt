@@ -17,7 +17,7 @@ class Game {
 
     lateinit var gameID: UUID
     lateinit var gameStatus: GameStatus
-    @OneToMany()
+    @OneToMany(cascade = [CascadeType.MERGE, CascadeType.REMOVE], fetch = FetchType.EAGER)
     var players : MutableList<Player> = mutableListOf()
     var currentRoundCount = -1
 
