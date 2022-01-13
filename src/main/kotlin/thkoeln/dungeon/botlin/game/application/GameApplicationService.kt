@@ -43,7 +43,8 @@ class GameApplicationService {
         return game;
     }
 
-    fun findAndIfNeededCreateGame(gameId: UUID): Game {
+    fun findAndIfNeededCreateGame(gameId: UUID) : Game
+    {
         var fittingGames = gameRepository!!.findByGameID(gameId)
         var game: Game? = null
         if (fittingGames.isEmpty()) {
@@ -79,8 +80,8 @@ class GameApplicationService {
         gameRepository?.save(game)
         return game
     }
-
-    fun newRound(roundNumber: Int) {
+    fun newRound(roundNumber: Int)
+    {
         logger.info("Processing 'new round' event for round no. $roundNumber")
         var game = findAndIfNeededCreateGame(gameRepository?.findFirstByGameStatusEquals(GameStatus.RUNNING)!!.gameID)
         game.currentRoundCount = roundNumber
