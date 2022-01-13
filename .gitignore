@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-botlin-db.mv.dv
+src/main/resources/botlin-db.mv.db
 
 ### STS ###
 .apt_generated
