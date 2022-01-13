@@ -1,5 +1,6 @@
 package thkoeln.dungeon.botlin
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
@@ -13,5 +14,5 @@ import org.springframework.kafka.annotation.EnableKafka
 open class BotlinApplication
 
 fun main(args: Array<String>) {
-	runApplication<BotlinApplication>(*args)
+	SpringApplication.run(BotlinConfiguration::class.java,*args)
 }
