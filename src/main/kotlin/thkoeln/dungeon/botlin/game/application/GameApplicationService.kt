@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 import thkoeln.dungeon.botlin.game.domain.Game
 import thkoeln.dungeon.botlin.game.domain.GameRepository
 import thkoeln.dungeon.botlin.game.domain.GameStatus
+import thkoeln.dungeon.botlin.player.Player
 import java.util.*
 
 @Service
@@ -42,7 +43,8 @@ class GameApplicationService {
         return game;
     }
 
-    fun findAndIfNeededCreateGame(gameId: UUID): Game {
+    fun findAndIfNeededCreateGame(gameId: UUID) : Game
+    {
         var fittingGames = gameRepository!!.findByGameID(gameId)
         var game: Game? = null
         if (fittingGames.isEmpty()) {
@@ -78,13 +80,18 @@ class GameApplicationService {
         gameRepository?.save(game)
         return game
     }
-
-    fun newRound(roundNumber: Int) {
+    fun newRound(roundNumber: Int)
+    {
         logger.info("Processing 'new round' event for round no. $roundNumber")
         var game = findAndIfNeededCreateGame(gameRepository?.findFirstByGameStatusEquals(GameStatus.RUNNING)!!.gameID)
         game.currentRoundCount = roundNumber
         gameRepository?.save(game)
         //todo
+    }
+
+    fun newPlayerJoinedGame(player: Player, game: Game) {
+        game.players.add(player)
+        gameRepository?.save(game)
     }
     //todo synchronize game state ?
 }

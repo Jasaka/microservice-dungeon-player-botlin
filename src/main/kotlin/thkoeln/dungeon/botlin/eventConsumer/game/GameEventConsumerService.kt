@@ -1,5 +1,6 @@
 package thkoeln.dungeon.botlin.eventConsumer.game
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.MessageHeaders
 import org.springframework.messaging.handler.annotation.Header
@@ -41,7 +42,7 @@ class GameEventConsumerService {
                 //GameStatus.CREATED ->
                 GameStatus.RUNNING -> gameApplicationService?.gameExternallyStarted(gameStatusEvent.getGameId()!!)
                 GameStatus.FINISHED -> gameApplicationService?.gameExternallyFinished(gameStatusEvent.getGameId()!!)
-                GameStatus.CREATED -> TODO()
+                GameStatus.CREATED -> gameApplicationService?.gameExternallyCreated(gameStatusEvent.getGameId()!!)
                 GameStatus.ORPHANED -> TODO()
                 null -> TODO()
             }
