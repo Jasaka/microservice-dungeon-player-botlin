@@ -42,6 +42,7 @@ class GameEventConsumerService {
                 //GameStatus.CREATED ->
                 GameStatus.RUNNING -> gameApplicationService?.gameExternallyStarted(gameStatusEvent.getGameId()!!)
                 GameStatus.FINISHED -> gameApplicationService?.gameExternallyFinished(gameStatusEvent.getGameId()!!)
+                //TODO doesnt join the player
                 GameStatus.CREATED -> gameApplicationService?.gameExternallyCreated(gameStatusEvent.getGameId()!!)
                 GameStatus.ORPHANED -> TODO()
                 null -> TODO()
