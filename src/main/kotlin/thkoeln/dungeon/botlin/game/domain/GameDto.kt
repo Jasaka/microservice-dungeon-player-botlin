@@ -22,6 +22,7 @@ class GameDto() {
         this.currentRoundCount = currentRoundCount
     }
 
+
     companion object {
         fun fromJsonString(jsonString: String): GameDto {
             var objectMapper = ObjectMapper().findAndRegisterModules()

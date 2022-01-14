@@ -9,7 +9,13 @@ import javax.persistence.Id
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-class Game {
+class Game(){
+
+    constructor(gameDto: GameDto) : this() {
+        this.gameID = gameDto.gameID
+        this.gameStatus = gameDto.gameStatus
+        this.currentRoundCount = gameDto.currentRoundCount
+    }
 
     @Id
     private var id = UUID.randomUUID();
