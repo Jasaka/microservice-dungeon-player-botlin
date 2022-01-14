@@ -11,7 +11,7 @@ import java.util.*
 class GameAdapter() {
 
     private val restTemplate = RestTemplate()
-    private val gameBaseURL: String = "http://localhost:8080"
+    private val gameBaseURL: String = "http://cides03.gm.fh-koeln.de:8080"
 
     fun createPlayer(name: String, email: String): String? {
         val jsonObject = JSONObject()
