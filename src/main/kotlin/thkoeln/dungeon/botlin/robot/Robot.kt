@@ -27,7 +27,15 @@ class Robot() {
         this.id = id
         this.energy = energy
         this.level = level
+        this.health = health
         this.currentPlanet = currentPlanet
+    }
+    constructor(robotPayloadDto: RobotPayloadDto) : this() {
+        this.id = robotPayloadDto.id
+        this.energy = robotPayloadDto.energy
+        this.level = robotPayloadDto.level
+        this.health = robotPayloadDto.health
+        this.currentPlanet = robotPayloadDto.currentPlanet
     }
 
 }
