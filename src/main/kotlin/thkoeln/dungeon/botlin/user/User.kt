@@ -12,15 +12,15 @@ class User() {
     var id = UUID.randomUUID()
 
     //TODO bind to front end
+    lateinit var bearerToken: UUID
     lateinit var name: String
     lateinit var email: String
-    lateinit var bearerToken: UUID
 
     @OneToMany(cascade = [CascadeType.MERGE, CascadeType.REMOVE], fetch = FetchType.EAGER)
     var players: MutableList<Player> = arrayListOf()
     fun isReadyToPlay(): Boolean = bearerToken != null
 
-    fun participate() : Player {
+    fun participate(): Player {
         var player = Player()
         players.add(player)
         return player
@@ -33,6 +33,12 @@ class User() {
             }
         }
         return false;
+    }
+
+    constructor(userDto: UserDto) : this() {
+        bearerToken = userDto.bearerToken
+        name = userDto.name
+        email = userDto.email
     }
 
     @Override
