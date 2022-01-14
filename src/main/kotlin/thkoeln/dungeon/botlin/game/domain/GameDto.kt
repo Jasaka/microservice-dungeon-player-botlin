@@ -1,7 +1,9 @@
 package thkoeln.dungeon.botlin.game.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.databind.ObjectMapper
 import lombok.ToString
+import thkoeln.dungeon.botlin.eventConsumer.game.RoundStatusEventPayloadDto
 import java.util.*
 
 @ToString
@@ -18,5 +20,12 @@ class GameDto() {
         this.gameID = gameID
         this.gameStatus = gameStatus
         this.currentRoundCount = currentRoundCount
+    }
+
+    companion object {
+        fun fromJsonString(jsonString: String): GameDto {
+            var objectMapper = ObjectMapper().findAndRegisterModules()
+            return objectMapper.readValue(jsonString, GameDto::class.java)
+        }
     }
 }
