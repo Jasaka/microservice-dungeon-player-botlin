@@ -1,0 +1,42 @@
+* {
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+h1{
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 3rem;
+    background: inherit;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+#registration-modal{
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+header{
+    height: 5rem;
+    width: available;
+    position: relative;
+}
+
+main{
+    min-height: calc(100vh - 10rem);
+    height: auto;
+    width: available;
+    position: relative;
+}
+
+footer{
+    padding-top: 2em;
+    height: 5rem;
+    width: available;
+    position: relative;
+}

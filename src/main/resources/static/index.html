@@ -1,0 +1,73 @@
+<html lang="en" class="text-white">
+<head>
+    <title>Botlin</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800">
+<div id="registration-modal" class="gray-800 grid grid-rows-7 hidden">
+    <div class="row-span-1 place-items-center">
+        <h1 class="my-4 text-4xl">Botlin</h1>
+    </div>
+    <div class="row-span-1 place-items-center">
+        <text class="my-4 text-md">Welcome!<br/>To take part in the Microservice Dungeon experience, please register
+            yourself as a Player:
+        </text>
+    </div>
+    <div class="row-span-5 place-items-center">
+        <form>
+            <div class="my-4">
+                <label>Name
+                    <input>
+                </label>
+            </div>
+            <div class="my-4">
+                <label>e-Mail
+                    <input>
+                </label>
+            </div>
+            <div id="registration-modal_remarks" class="">
+                <div id="registration-modal_remarks--text"
+                     class="w-auto inline-block border border-solid border-gray-300 rounded text-red-700 p-2">
+                    Nooooooooo
+                </div>
+                <br/>
+                <br/>
+            </div>
+            <button class="rounded bg-green-700 focus:bg-green-500 hover:bg-green-800 rounded py-2 px-4">Register
+            </button>
+        </form>
+
+        <a href="https://coco.study">
+            <button class="rounded bg-red-700 focus:bg-red-500 hover:bg-red-800 rounded py-2 px-4">I don't want to
+            </button>
+        </a>
+    </div>
+</div>
+<header class="bg-gray-900">
+    <h1 class="my-4 text-4xl">Botlin</h1>
+</header>
+<main class="bg-gray-800 grid grid-cols-1 grid-rows-9 gap-4 place-items-center">
+    <div class="bg-gray-600 p-2 rounded">
+        <h2 class="my-1 text-2xl">Game</h2>
+    </div>
+    <div class="bg-gray-600 p-2 rounded">
+        <h2 class="my-1 text-2xl">Robots</h2>
+    </div>
+    <div class="bg-gray-600 p-2 rounded">
+        <h2 class="my-1 text-2xl">Strategy</h2>
+    </div>
+</main>
+<footer class="bg-gray-900 p-1">
+    <div id="bearer-id-display">User: UUID</div>
+    <a class="text-red-700 hover:text-red-500"
+       href="https://github.com/The-Microservice-Dungeon/player-botlin">Botlin</a> by students of <a
+        class="text-yellow-700 hover:text-yellow-500" href="https://coco.study">CoCo</a> @ <a
+        class="text-purple-500 hover:text-purple-700" href="https://th-koeln.de">TH-Köln</a>
+</footer>
+<script src="client.js"></script>
+</body>
+</html>
