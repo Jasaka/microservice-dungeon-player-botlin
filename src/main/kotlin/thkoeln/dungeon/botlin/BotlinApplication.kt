@@ -14,5 +14,5 @@ import org.springframework.kafka.annotation.EnableKafka
 open class BotlinApplication
 
 fun main(args: Array<String>) {
-	SpringApplication.run(BotlinConfiguration::class.java,*args)
+	SpringApplication.run(BotlinApplication::class.java,*args)
 }
