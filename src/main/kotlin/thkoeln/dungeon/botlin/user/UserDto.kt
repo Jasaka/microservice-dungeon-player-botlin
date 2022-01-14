@@ -3,11 +3,10 @@ package thkoeln.dungeon.botlin.user
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import thkoeln.dungeon.botlin.eventConsumer.game.RoundStatusEventPayloadDto
+import thkoeln.dungeon.botlin.player.Player
 import java.util.*
 
 class UserDto {
-    @JsonProperty("playerId")
-    var id = UUID.randomUUID()
 
     @JsonProperty("name")
     lateinit var name: String
@@ -15,7 +14,6 @@ class UserDto {
     lateinit var email: String
     @JsonProperty("bearerToken")
     lateinit var bearerToken: UUID
-
 
     companion object{
         fun fromJsonString(jsonString: String): UserDto{
