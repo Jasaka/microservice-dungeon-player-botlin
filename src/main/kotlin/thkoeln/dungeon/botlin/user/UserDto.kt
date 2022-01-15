@@ -2,8 +2,6 @@ package thkoeln.dungeon.botlin.user
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
-import thkoeln.dungeon.botlin.eventConsumer.game.RoundStatusEventPayloadDto
-import thkoeln.dungeon.botlin.player.Player
 import java.util.*
 
 class UserDto {
@@ -16,7 +14,7 @@ class UserDto {
     lateinit var bearerToken: UUID
 
     companion object{
-        fun fromJsonString(jsonString: String): UserDto{
+        fun fromJsonString(jsonString: String?): UserDto{
             var objectMapper = ObjectMapper().findAndRegisterModules()
             return objectMapper.readValue(jsonString, UserDto::class.java)
 

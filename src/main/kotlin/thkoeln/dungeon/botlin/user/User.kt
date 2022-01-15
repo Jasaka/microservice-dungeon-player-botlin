@@ -20,8 +20,8 @@ class User() {
     var players: MutableList<Player> = arrayListOf()
     fun isReadyToPlay(): Boolean = bearerToken != null
 
-    fun participate(): Player {
-        var player = Player()
+    fun participate(registrationId:UUID): Player {
+        var player = Player(registrationId)
         players.add(player)
         return player
     }
