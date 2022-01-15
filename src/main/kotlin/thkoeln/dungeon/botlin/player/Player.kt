@@ -8,23 +8,23 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 
 @Entity
-class Player {
+class Player() {
     @Id
-    var playerId: UUID = UUID.randomUUID()
+    lateinit var playerId: UUID;
 
     var moneten = 0
 
     //TODO var Robot
     @OneToMany
-    var robots : MutableList<Robot> = mutableListOf()
+    var robots: MutableList<Robot> = mutableListOf()
 
     fun setMode() {
         //TODO Strategy pattern
     }
 
-    constructor()
-    {
-
+    constructor(registrationId: UUID) : this() {
+        playerId = registrationId
+        moneten = 200
     }
 
 }

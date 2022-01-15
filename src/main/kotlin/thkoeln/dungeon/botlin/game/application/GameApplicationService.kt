@@ -8,21 +8,24 @@ import org.springframework.stereotype.Service
 import thkoeln.dungeon.botlin.game.domain.Game
 import thkoeln.dungeon.botlin.game.domain.GameRepository
 import thkoeln.dungeon.botlin.game.domain.GameStatus
+import thkoeln.dungeon.botlin.player.PlayerRepository
 import thkoeln.dungeon.botlin.user.User
 import java.util.*
 
 @Service
 class GameApplicationService {
     private var gameRepository: GameRepository?
+    private var playerRepository: PlayerRepository
     //TODO: GameServiceRESTAdapter
 
     private var logger: Logger = LoggerFactory.getLogger(GameApplicationService::class.java)
     var modelMapper: ModelMapper = ModelMapper();
 
     @Autowired
-    constructor(gameRepository: GameRepository?
+    constructor(gameRepository: GameRepository?,playerRepository: PlayerRepository
     ) {
         this.gameRepository = gameRepository
+        this.playerRepository = playerRepository
     }
 
     fun retrieveActiveGames(): List<Game> {
@@ -89,9 +92,10 @@ class GameApplicationService {
         //todo
     }
 
-    fun newUserJoinedGame(user: User, game: Game) {
-        var player = user.participate()
+    fun newUserJoinedGame(user: User, game: Game, transactionId: UUID) {
+        var player = user.participate(transactionId)
         game.players.add(player)
+        playerRepository.save(player)
         gameRepository?.save(game)
     }
     //todo synchronize game state ?
