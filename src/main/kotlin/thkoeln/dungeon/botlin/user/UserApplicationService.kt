@@ -1,15 +1,14 @@
-package thkoeln.dungeon.botlin.player
+package thkoeln.dungeon.botlin.user
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import thkoeln.dungeon.botlin.game.application.GameApplicationService
 import thkoeln.dungeon.botlin.game.domain.Game
-import thkoeln.dungeon.botlin.user.User
-import thkoeln.dungeon.botlin.user.UserRepository
+import thkoeln.dungeon.botlin.player.PlayerRepository
 import java.util.*
 
 @Service
-class PlayerApplicationService {
+class UserApplicationService{
     private var playerRepository: PlayerRepository?;
     private var gameApplicationService: GameApplicationService?
     private var userRepository: UserRepository?
