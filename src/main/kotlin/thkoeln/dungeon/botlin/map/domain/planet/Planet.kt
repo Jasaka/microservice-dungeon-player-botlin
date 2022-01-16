@@ -6,18 +6,34 @@ import thkoeln.dungeon.botlin.core.Resource
 import java.util.*
 
 class Planet(
-    private val isSpaceStation: Boolean = false,
-    private val northernNeighbour: UUID,
-    private val southernNeighbour: UUID,
-    private val westernNeighbour: UUID,
-    private val easternNeighbour: UUID,
+    val isSpaceStation: Boolean = false,
+    private val northernNeighbour: UUID?,
+    private val southernNeighbour: UUID?,
+    private val westernNeighbour: UUID?,
+    private val easternNeighbour: UUID?,
     private var gravity: Gravity,
     private var resources: Pair<Resource, Int>
 ) {
 
-    fun setResource(resourceType: Resource, amount: Int){
+    fun setResourceBarren(){
+        resources = resources.copy(first = Resource.BARREN, second = 0)
+    }
+
+    fun initResource(resourceType: Resource, amount: Int){
         resources = resources.copy(first = resourceType, second = amount)
     }
+
+    fun setResourceAmount(amount: Int){
+        if (amount == 0){
+            setResourceBarren()
+        } else{
+            resources = resources.copy(second = amount)
+        }
+    }
+
+    fun getResource() = resources.first
+
+    fun getResourceAmount() = resources.second
 
     fun updateResourceAmount(amount: Int){
         resources = resources.copy(second = amount)
