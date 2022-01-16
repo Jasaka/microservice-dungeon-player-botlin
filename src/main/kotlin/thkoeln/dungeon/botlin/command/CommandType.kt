@@ -6,7 +6,7 @@ enum class CommandType {
     @JsonProperty("blocking")
     BLOCKING,
 
-    @JsonProperty("BUYING")
+    @JsonProperty("buying")
     BUYING,
 
     @JsonProperty("selling")
