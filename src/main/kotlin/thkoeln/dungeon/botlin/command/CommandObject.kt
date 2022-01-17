@@ -21,5 +21,5 @@ class CommandObject {
 
     private lateinit var itemName: String
 
-    private var itemQuantity: Int = -1
+    private var itemQuantity: Int = 0
 }
