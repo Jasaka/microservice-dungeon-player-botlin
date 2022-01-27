@@ -2,6 +2,8 @@ package thkoeln.dungeon.botlin.strategy
 
 import thkoeln.dungeon.botlin.robot.Robot
 import java.util.*
+import javax.persistence.Entity
+import javax.persistence.Id
 
 
 interface Strategy {
@@ -12,8 +14,9 @@ interface Strategy {
     fun onSpawn(planet: Planet,neighbourPlanets: List<Planet>)
     fun onPlanet(planet: Planet,neighbourPlanets: List<Planet>)
 }
-
+@Entity
 class Planet { //TODO MOCK
+    @Id
     lateinit var id : UUID
     var isSpaceStation : Boolean = false
     lateinit var northernNeighbour : UUID

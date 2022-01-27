@@ -1,5 +1,7 @@
 package thkoeln.dungeon.botlin.strategy
 
+import thkoeln.dungeon.botlin.robot.Item
+import thkoeln.dungeon.botlin.robot.Resource
 import thkoeln.dungeon.botlin.robot.Robot
 import java.util.*
 
@@ -10,36 +12,49 @@ abstract class Basic : Strategy {
         this.robot = robot
     }
 
-    override fun onSpawn(planet: Planet,neighbourPlanets: List<Planet>) {
+    override fun onSpawn(planet: Planet, neighbourPlanets: List<Planet>) {
         currentPlanet = planet
         checkNeighbours(neighbourPlanets)
 
     }
 
-    override fun onPlanet(planet: Planet,neighbourPlanets: List<Planet>) {
+    override fun onPlanet(planet: Planet, neighbourPlanets: List<Planet>) {
         currentPlanet = planet
-        checkNeighbours(neighbourPlanets)
-        if(robot.resources.second <= 10) //TODO hardcoded inventory size
-        {
+        checkIfOnStation(planet)
+        if (robot.energy <= 1) {
+            if (robot.resources.second <= 10) //TODO hardcoded inventory size
+            {
+                robot.regenerate()
+            } else if (robot.resources.second >= 10) {
+                var previousPlanet = robot.visitedPlanets.indexOf(planet)-1
+                robot.move(robot.visitedPlanets[previousPlanet])
+            }
 
         }
         if (planet.resources.first != "NONE") {
             robot.mine()
         }
+        else checkNeighbours(neighbourPlanets)
     }
 
-    fun checkNeighbours(neighbourPlanets: List<Planet>) {
+    private fun checkIfOnStation(planet: Planet) {
+        if (planet.isSpaceStation) {
+            //ONE OF THESE COMMANDS WILL SUCCEED
+            robot.sell()
+            robot.buy(Item.REFRESH)
+            robot.buy(Item.ROBOT)
+            robot.buy(Item.UPGRADE)
+
+            var nextPlanet = robot.visitedPlanets.indexOf(planet)+1
+            robot.move(robot.visitedPlanets[nextPlanet])
+        }
+    }
+
+    private fun checkNeighbours(neighbourPlanets: List<Planet>) {
         for (planet in neighbourPlanets) {
             if (planet.resources.first != "NONE") {
-                robot.move(planet.id)
+                robot.move(planet)
             }
-        }
-        var direction = random.nextInt(3)
-        when (direction) {
-            0 -> robot.move(currentPlanet.northernNeighbour)
-            1 -> robot.move(currentPlanet.easternNeighbour)
-            2 -> robot.move(currentPlanet.southernNeighbour)
-            3 -> robot.move(currentPlanet.westernNeighbour)
         }
     }
 }
