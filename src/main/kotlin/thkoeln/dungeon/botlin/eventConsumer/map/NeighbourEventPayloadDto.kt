@@ -15,6 +15,7 @@ class NeighbourEventPayloadDto{
     fun getPlanetId () = planetId
     fun getMovementDiff() = movementDifficulty
     fun getDirection()= direction
+
     companion object
     {
         fun fromJsonString(jsonString: String) : NeighbourEventPayloadDto

@@ -6,7 +6,6 @@ import thkoeln.dungeon.botlin.eventConsumer.core.AbstractEvent
 import java.util.*
 import javax.persistence.Entity
 
-@Entity
 class NeighbourEvent : AbstractEvent {
     private lateinit var planetId: UUID
     private var movementDifficulty: Int = 0;
