@@ -11,7 +11,7 @@ class TradingEventConsumerService {
     @KafkaListener(topics = ["bank-created"])
     fun consumeBankCreatedEvent(@Header eventId: String, @Header timestamp: String, @Header transactionId: String,
                                 @Payload payload: String) {
-        val bankCreatedEvent = TradingEvent(eventId, timestamp, transactionId, payload)
+        val bankCreatedEvent = BankCreatedEvent(eventId, timestamp, transactionId, payload)
         if (bankCreatedEvent.isValid()) {
             TODO()
         }
