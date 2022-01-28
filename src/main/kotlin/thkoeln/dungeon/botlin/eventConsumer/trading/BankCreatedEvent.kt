@@ -5,14 +5,14 @@ import thkoeln.dungeon.botlin.eventConsumer.core.AbstractEvent
 import java.util.*
 
 
-class TradingEvent : AbstractEvent {
+class BankCreatedEvent : AbstractEvent {
     private lateinit var playerId: UUID
     private var money: Int = -1;
 
     constructor(eventIdString: String, timestampString: String, transactionIdString: String, payloadString: String)
             : super(eventIdString, timestampString, transactionIdString) {
         try {
-            var payload = TradingEventPayloadDto.fromJsonString(payloadString)
+            var payload = BankCreatedPayloadDto.fromJsonString(payloadString)
             playerId = payload.getPlayerId()
             money = payload.getMoney()
 

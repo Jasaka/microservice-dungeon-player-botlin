@@ -2,10 +2,9 @@ package thkoeln.dungeon.botlin.eventConsumer.trading
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
-import thkoeln.dungeon.botlin.eventConsumer.game.RoundStatusEventPayloadDto
 import java.util.*
 
-class TradingEventPayloadDto {
+class BankCreatedPayloadDto {
     @JsonProperty("playerId")
     private lateinit var playerId: UUID
 
@@ -16,9 +15,9 @@ class TradingEventPayloadDto {
     fun getMoney(): Int = money
 
     companion object{
-        fun fromJsonString(jsonString: String): TradingEventPayloadDto{
+        fun fromJsonString(jsonString: String): BankCreatedPayloadDto{
             var objectMapper = ObjectMapper().findAndRegisterModules()
-            return objectMapper.readValue(jsonString, TradingEventPayloadDto::class.java)
+            return objectMapper.readValue(jsonString, BankCreatedPayloadDto::class.java)
 
         }
     }
